@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--BreslerApp Start-->
+
+
+    <color name="colorTop">#292929</color>
+
+
+    <color name="colorEndBackground">#50FFFFFF</color>
+    <color name="colorLittleTransparent">#9AEFEFEF</color>
+    <color name="colorDarkGold">#954600</color>
+    <color name="colorRedDelete">#FFA1A1</color>
+    <color name="bg_login">#26ae90</color>
+    <color name="bg_register">#2e3237</color>
+    <color name="bg_main">#DAA520</color>
+    <color name="input_login">#222222</color>
+    <color name="input_login_hint">#999999</color>
+    <color name="input_register">#888888</color>
+    <color name="input_register_bg">#3b4148</color>
+    <color name="input_register_hint">#5e6266</color>
+    <color name="btn_login">#26ae90</color>
+    <color name="btn_login_bg">#eceef1</color>
+    <color name="lbl_name">#333333</color>
+    <color name="btn_logut_bg">#ff6861</color>
+    <color name="green">#008000</color>
+    <color name="background">#2C2E43</color>
+    <color name="text_on_icon">#EEEEEE</color>
+    <color name="secondary_text">#9CA1B5</color>
+    <color name="item_1">#01CD98</color>
+    <color name="item_2">#5351FC</color>
+    <color name="item_3">#E64000</color>
+    <color name="item_4">#F6B900</color>
+    <color name="item_5">#1C646D</color>
+    <color name="item_6">#A68F97</color>
+    <color name="item_7">#8E4C8B</color>
+    <!--BreslerApp End-->
+
+    <color name="newPink">#F2668B</color>
+    <color name="newBlue">#0798B9</color>
+    <color name="newDarkBlue">#011F26</color>
+    <color name="newDarkGreen">#026873</color>
+    <color name="newDarkGreenTransp">#27026873</color>
+    <color name="newGreen">#03A688</color>
+
+    <color name="colorPrimary">#141A31</color>
+    <color name="colorPrimaryDark">#081029</color>
+    <color name="colorAccent">#0097FB</color>
+    <color name="colorTextIcons">#EEEEEE</color>
+    <color name="colorLittleGray">#A8A8A8</color>
+    <color name="colorGray">#515151</color>
+    <color name="colorPrimaryLight">#1E2746</color>
+    <color name="colorPrimaryLightTransp">#651E2746</color>
+    <color name="colorTextPrimary">#CBD5ED</color>
+    <color name="colorTextSecondary">#4A5B82</color>
+    <color name="colorTextOther">#FAD303</color>
+    <color name="colorThemeExtra">#FF5252</color>
+    <color name="colorLauncher">#F44336</color>
+    <color name="colorRED">#FF1100</color>
+
+
+    <color name="colorBack">#FFFFFF</color>
+    <color name="colorText">#141414</color>
+    <color name="colorTextBlacky">#292929</color>
+    <color name="colorTextBlacky2">#494949</color>
+    <color name="colorItem">#FCEBFF</color>
+    <color name="colorGrayLittle">#EFEFEF</color>
+    <color name="colorWhite">#EEEEEE</color>
+    <color name="colorWhiteText">#D5D5D5</color>
+    <color name="colorGrayText">#757474</color>
+    <color name="colorYellow">#FFDA6B</color>
+    <color name="colorBlue">#82BDC5</color>
+    <color name="colorDivider">#E4E4E4</color>
+
+    <color name="back_for_sign_in">#1A1A1A</color>
+    <color name="color_hint">#BFBFBF</color>
+    <color name="color_btn_sign_in">#FFCC33</color>
+    <color name="sign_in_back">#333333</color>
+
+
+
+</resources>

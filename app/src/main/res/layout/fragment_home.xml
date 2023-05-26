@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#EDEDED"
+    tools:context=".presentation.main.home.HomeFragment">
+
+    <LinearLayout
+        android:id="@+id/ll_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/background"
+        android:layout_gravity="center"
+        android:paddingStart="@dimen/_4sdp"
+        android:paddingEnd="@dimen/_4sdp"
+        android:paddingTop="@dimen/_8sdp"
+        android:paddingBottom="@dimen/_8sdp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HR Fried"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/colorWhiteText"
+            android:fontFamily="@font/ubuntu_bold"
+            android:layout_gravity="center"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_tasks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_task" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/_4sdp"
+        android:background="@drawable/background_input"
+        android:padding="@dimen/_4sdp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:hint="Должность, ключевые слова.."
+            android:layout_height="@dimen/_32sdp"
+            android:layout_weight="1"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_6sdp"
+            android:background="@null"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="@dimen/_2sdp"
+            android:textColorHint="@color/colorGrayText"
+            android:drawableTint="@color/colorGrayText"
+            android:ellipsize="end"
+            />
+
+        <ImageView
+            android:id="@+id/btn_sort"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:src="@drawable/ic_display_settings"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_vacancy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Интересные вакансии :"
+        android:paddingTop="@dimen/_8sdp"
+        android:textColor="@color/colorTextBlacky"
+        android:fontFamily="@font/ubuntu_bold"
+        android:textSize="@dimen/_12sdp"
+        android:paddingBottom="@dimen/_4sdp"
+        android:paddingStart="@dimen/_16sdp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_vacancy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/_8sdp"
+        android:paddingStart="@dimen/_4sdp"
+        android:paddingEnd="@dimen/_4sdp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_vacancy"/>
+
+</LinearLayout>

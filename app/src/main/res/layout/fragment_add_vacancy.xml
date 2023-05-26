@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/background"
+        android:layout_gravity="center"
+        android:paddingStart="@dimen/_4sdp"
+        android:paddingEnd="@dimen/_4sdp"
+        android:paddingTop="@dimen/_4sdp"
+        android:paddingBottom="@dimen/_4sdp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
+            android:padding="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_2sdp"
+            android:src="@drawable/ic_back"
+            />
+
+        <TextView
+            android:id="@+id/tv_head"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Новая вакансия"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/colorWhiteText"
+            android:fontFamily="@font/ubuntu_bold"
+            android:layout_gravity="center"
+            android:gravity="center"
+            />
+
+        <ImageView
+            android:id="@+id/btn_save"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
+            android:padding="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_2sdp"
+            android:src="@drawable/ic_save"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

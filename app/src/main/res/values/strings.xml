@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">HR Friend</string>
+
+    <string name="Cancel">Отмена</string>
+    <string name="test">Тестовый</string>
+    <string name="actual">Актуальный</string>
+    <string name="outdated">Снят с производства</string>
+    <string name="title_activity_menu_detail_host">MenuActivityDetailHostActivity</string>
+    <string name="title_menuactivity_list">munus</string>
+    <string name="title_menuactivity_detail">MenuActivity Detail</string>
+    <string name="welcome">Добро пожаловать!</string>
+    <string name="login">Войти чтобы продолжить</string>
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="sign_in">Есть учетка? Войти!</string>
+    <string name="create_new_accaunt">Создать новый аккаунт</string>
+    <string name="name">Имя</string>
+    <string name="confirm_password">Подтвердить пароль</string>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="select_user">Выбрать пользователя</string>
+    <string name="type_message">Сообщение …</string>
+    <string name="Online">Онлайн</string>
+    <string name="сhange">Изменить</string>
+    <string name="telephone_n">Телефон</string>
+    <string name="gender">Пол</string>
+    <string name="forgot_password">Забыли пароль ?</string>
+    <string name="notifications">Уведомления</string>
+
+    <string name="open"> (</string>
+    <string name="close">)</string>
+    <string name="quantity">Было всего : </string>
+    <string name="quantity_left">В наличии : </string>
+    <string name="date_create">Дата Создания : </string>
+    <string name="date_todo">Дата производства : </string>
+    <string name="pcs"> шт.</string>
+    <string name="todo">Необходимо изготовить :</string>
+    <string name="status">Статус</string>
+
+
+    <string name="pin_title_save">Сохраните пин код</string>
+    <string name="pin_title_in">Введите пин код</string>
+
+    <string name="waiting_start">Ожидает запуска</string>
+    <string name="manufactured">Изготавливается</string>
+    <string name="ended">Завершен</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="chat">Chat</string>
+    <string name="action_settings">Settings</string>
+
+
+</resources>
