@@ -89,7 +89,7 @@
                 <Spinner
                     android:id="@+id/spin_vacancy_type"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/_44sdp"
+                    android:layout_height="@dimen/_36sdp"
                     android:layout_marginEnd="@dimen/_8sdp"
                     android:background="@null"
                     android:ellipsize="end"
@@ -99,6 +99,8 @@
                     android:importantForAutofill="no"
                     android:maxLines="1"
                     android:spinnerMode="dropdown"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
                     android:paddingStart="6dp"
                     android:paddingEnd="6dp"
                     android:textColor="@color/colorWhite"
@@ -145,13 +147,13 @@
                     android:layout_marginStart="10dp"
                     android:src="@drawable/ic_person"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/tv_salary"
+                    app:layout_constraintEnd_toStartOf="@id/et_salary"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/newGreen" />
 
-                <TextView
-                    android:id="@+id/tv_salary"
+                <EditText
+                    android:id="@+id/et_salary"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_44sdp"
                     android:layout_marginEnd="@dimen/_8sdp"
@@ -162,6 +164,7 @@
                     android:hint="Введите оклад"
                     android:importantForAutofill="no"
                     android:maxLines="1"
+                    android:inputType="number"
                     android:paddingStart="6dp"
                     android:paddingEnd="6dp"
                     android:textColor="@color/colorWhite"
@@ -208,13 +211,13 @@
                     android:layout_marginStart="10dp"
                     android:src="@drawable/ic_123"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/tv_years_start"
+                    app:layout_constraintEnd_toStartOf="@id/et_years_start"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/newGreen" />
 
-                <TextView
-                    android:id="@+id/tv_years_start"
+                <EditText
+                    android:id="@+id/et_years_start"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_44sdp"
                     android:layout_marginEnd="@dimen/_8sdp"
@@ -225,6 +228,7 @@
                     android:hint="От скольки лет"
                     android:importantForAutofill="no"
                     android:maxLines="1"
+                    android:inputType="number"
                     android:paddingStart="6dp"
                     android:paddingEnd="6dp"
                     android:textColor="@color/colorWhite"
@@ -271,13 +275,13 @@
                     android:layout_marginStart="10dp"
                     android:src="@drawable/ic_123"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/tv_years_end"
+                    app:layout_constraintEnd_toStartOf="@id/et_years_end"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/newGreen" />
 
                 <TextView
-                    android:id="@+id/tv_years_end"
+                    android:id="@+id/et_years_end"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_44sdp"
                     android:layout_marginEnd="@dimen/_8sdp"
@@ -286,6 +290,7 @@
                     android:fontFamily="@font/ubuntu_regular"
                     android:gravity="center_vertical"
                     android:hint="До скольки лет"
+                    android:inputType="number"
                     android:importantForAutofill="no"
                     android:maxLines="1"
                     android:paddingStart="6dp"
@@ -334,13 +339,13 @@
                     android:layout_marginStart="10dp"
                     android:src="@drawable/ic_location_on"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/tv_location"
+                    app:layout_constraintEnd_toStartOf="@id/et_location"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/newGreen" />
 
                 <TextView
-                    android:id="@+id/tv_location"
+                    android:id="@+id/et_location"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_44sdp"
                     android:layout_marginEnd="@dimen/_8sdp"
@@ -377,6 +382,70 @@
                 app:layout_constraintBottom_toTopOf="@id/cl_5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/cl_5" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/background_input"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/cl_5">
+
+                <ImageView
+                    android:id="@+id/iw_description"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_edit_note"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/et_description"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/newGreen" />
+
+                <TextView
+                    android:id="@+id/et_description"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_44sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:gravity="center_vertical"
+                    android:hint="Добавьте описание"
+                    android:importantForAutofill="no"
+                    android:maxLines="1"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorGrayText"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iw_description"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_45sdp"
+                android:background="@color/colorPrimary"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:text="Описание"
+                android:textAllCaps="true"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toTopOf="@id/cl_6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/cl_6" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

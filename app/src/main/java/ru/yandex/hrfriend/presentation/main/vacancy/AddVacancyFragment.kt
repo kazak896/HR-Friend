@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.LinearLayout
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -24,6 +23,9 @@ import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.yandex.hrfriend.R
+import ru.yandex.hrfriend.data.dto.vacancy.Position
+import ru.yandex.hrfriend.data.dto.vacancy_type.VacancyType
+import ru.yandex.hrfriend.data.dto.vacancy_type.toPosition
 import ru.yandex.hrfriend.databinding.FragmentAddVacancyBinding
 import ru.yandex.hrfriend.databinding.FragmentAddVacancyTypeBinding
 import ru.yandex.hrfriend.presentation.main.vacancy.events.AddVacancyTypeEvent
@@ -32,7 +34,8 @@ import ru.yandex.hrfriend.util.PreferencesManager
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy) {
+class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy),
+    AdapterView.OnItemSelectedListener {
 
     private lateinit var binding: FragmentAddVacancyBinding
 
@@ -45,7 +48,9 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy) {
     private lateinit var botSheetBinding: FragmentAddVacancyTypeBinding
     private var dialogAddVT: BottomSheetDialog? = null
 
-    var vacancyTypes = arrayOf("java", "php")
+    private lateinit var vacancyTypesG: List<VacancyType>
+    private lateinit var positions: List<Position>
+    private var stringArray: MutableList<String> = emptyArray<String>().toMutableList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,17 +63,19 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy) {
         binding.btnBack.setOnClickListener { btnBackPressed() }
         binding.btnAddVacancyType.setOnClickListener { btnAddVacancyTypeClick() }
 
-        var arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_vacancy_spiner, vacancyTypes)
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_vacancy_spiner, stringArray)
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        val spinner = Spinner(requireContext())
-        spinner.id = "NewSpinerId"
 
+        with(binding.spinVacancyType) {
+            adapter = arrayAdapter
+            onItemSelectedListener = this@AddVacancyFragment
+            prompt = "Выберите должность"
+        }
+        binding.btnSave.setOnClickListener { addVacancy() }
 
-        with(binding.spinVacancyType)
-
-        observeSaveVacancyType()
-
+        observeSaveVacancyType(arrayAdapter)
+        getVacancyTypes()
     }
 
     private fun btnAddVacancyTypeClick() {
@@ -83,7 +90,7 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy) {
             dialogAddVT!!.setContentView(botSheetBinding.root)
             botSheetBinding.btnBack.setOnClickListener { dialogAddVT!!.dismiss() }
             botSheetBinding.btnSave.setOnClickListener { saveVacancyType() }
-            getVacancyTypes()
+
         }
         val bottomSheetBehavior = dialogAddVT!!.behavior
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -98,13 +105,14 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy) {
         vacancyTypeViewModel.getVacancyTypes()
     }
 
-    private fun observeSaveVacancyType() {
+    private fun observeSaveVacancyType(arrayAdapter: ArrayAdapter<String>) {
         collectLatestLifecycleFlow(vacancyTypeViewModel.saveFlow) {
             when (it) {
                 is AddVacancyTypeEvent.Empty -> TODO()
                 is AddVacancyTypeEvent.Failure -> {
                     it.errorText?.let { it1 -> showToast(it1) }
                 }
+
                 is AddVacancyTypeEvent.Loading -> TODO()
                 is AddVacancyTypeEvent.Success -> {
                     showToast("Позиция \"${it.result}\", сохранена успешно !")
@@ -117,13 +125,24 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy) {
                 is GetVacancyTypesEvent.Empty -> {
 
                 }
+
                 is GetVacancyTypesEvent.Failure -> {
                     showToast(it.errorText.toString())
                 }
+
                 is GetVacancyTypesEvent.Loading -> TODO()
                 is GetVacancyTypesEvent.Success -> {
-                    showToast("YPI !")
-                    Log.d("Tag", it.result.toString())
+                    Log.d("TAG", it.result.toString())
+                    it.result?.let { vacancyTypes ->
+                        vacancyTypesG = vacancyTypes
+                        vacancyTypes.map(VacancyType::position).let { positions ->
+                            {
+                                Log.d("TAG", positions.toString())
+                                stringArray.addAll(positions)
+                                arrayAdapter.notifyDataSetChanged()
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -137,9 +156,25 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy) {
         findNavController().popBackStack()
     }
 
-    fun addVacancy() {
-
+    private fun addVacancy() {
+        val position = findPositionByPositionName(binding.spinVacancyType.selectedItem.toString())
+        val salary = binding.etSalary.text.toString()
+        val yearsStart = binding.etYearsStart.text.toString()
+        val yearsEnd = binding.etYearsEnd.text.toString()
+        val location = binding.etLocation.text.toString()
+        val description = binding.etDescription.text.toString()
+        position?.toPosition()?.let {
+            vacancyViewModel.saveVacancy(
+                desciption = description,
+                position = it,
+                salary = salary,
+                startYearsXP = yearsStart.toInt(),
+                endYearsXP = yearsEnd.toInt(),
+                location = location
+            )
+        }
     }
+
     private fun <T> Fragment.collectLatestLifecycleFlow(
         flow: Flow<T>,
         collect: suspend (T) -> Unit
@@ -149,5 +184,24 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy) {
                 flow.cancellable().collectLatest(collect)
             }
         }
+    }
+
+    fun findPositionByPositionName(posName: String) : VacancyType? {
+        vacancyTypesG.forEach {
+            return if (it.position == posName) {
+                it
+            } else {
+                null
+            }
+        }
+        return null
+    }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        showToast(message = "Nothing selected")
     }
 }
