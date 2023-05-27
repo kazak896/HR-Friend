@@ -1,5 +1,6 @@
 package ru.yandex.hrfriend.presentation.main.vacancy
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,6 +44,7 @@ class VacancyTypeViewModel @Inject constructor(
     fun saveVacancyType(
         position: String
     ) {
+        Log.d("TAG", position)
         vacancyTypeUseCases.addVacancyTypeUseCase(
             VacancyTypeDto(position)
         ).onEach {

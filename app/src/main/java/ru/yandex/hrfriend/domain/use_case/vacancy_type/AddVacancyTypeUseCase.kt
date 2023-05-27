@@ -1,5 +1,6 @@
 package ru.yandex.hrfriend.domain.use_case.vacancy_type
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
@@ -17,11 +18,11 @@ import javax.inject.Inject
 class AddVacancyTypeUseCase @Inject constructor(
     private val vacancyTypeRepository: VacancyTypeRepository
 ) {
-
     operator fun invoke(
         vacancyTypeDto: VacancyTypeDto
     ) : Flow<Resource<VacancyType>> = flow {
         try {
+            Log.d("TAG", vacancyTypeDto.toString())
             val response = vacancyTypeRepository.add(vacancyTypeDto)
             val result = response.body()
             if (response.isSuccessful && result != null) {

@@ -137,8 +137,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideVacancyTypeRepository(
-        vacancyTypeApi: VacancyTypeApi
-    ) : VacancyTypeRepository = VacancyTypeRepositoryImpl(vacancyTypeApi)
+        vacancyTypeApi: VacancyTypeApi,
+        preferencesManager: PreferencesManager
+    ) : VacancyTypeRepository = VacancyTypeRepositoryImpl(vacancyTypeApi, preferencesManager)
 
     @Singleton
     @Provides

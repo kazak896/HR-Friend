@@ -1,16 +1,23 @@
 package ru.yandex.hrfriend.util
 
+import java.util.Collections
+
 class Constants {
     companion object {
         const val KEY_PREFERENCE_NAME = "HRFriendPrefs"
         const val JWT_KEY = "jwt_key"
-        const val JWT_REFRESH = "jwt_key"
+        const val JWT_REFRESH = "jwt_refresh"
         const val USERNAME = "username"
         const val LASTNAME = "lastname"
         const val ROLE = "role"
         const val EMAIL = "email"
         const val ID = "id"
         const val TIMESTAMP = "timestamp"
+
+        fun getAuthHeader(token: String) : String {
+            return "Bearer $token"
+        }
+
 
         //const val domain = "kas-dev.bresler.ru"
         const val domain = "10.0.2.2:8080"
