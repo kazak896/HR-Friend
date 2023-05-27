@@ -1,30 +1,26 @@
-package ru.yandex.hrfriend.domain.use_case.vacancy
+package ru.yandex.hrfriend.domain.use_case.vacancy_type
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.yandex.hrfriend.data.dto.ErrorResponse
-import ru.yandex.hrfriend.data.dto.vacancy.AddVacancyRequest
-import ru.yandex.hrfriend.data.dto.vacancy.AddVacancyResponse
-import ru.yandex.hrfriend.domain.repository.VacancyRepository
+import ru.yandex.hrfriend.data.dto.vacancy_type.VacancyType
+import ru.yandex.hrfriend.data.dto.vacancy_type.VacancyTypeDto
+import ru.yandex.hrfriend.domain.repository.VacancyTypeRepository
 import ru.yandex.hrfriend.util.Resource
-import java.util.UUID
 import javax.inject.Inject
 
-class UpdateVacancyUseCase @Inject constructor(
-    private val repository: VacancyRepository
-){
-    operator fun invoke(
-        id: UUID,
-        addVacancyRequest: AddVacancyRequest
-    ) : Flow<Resource<AddVacancyResponse>> = flow {
+class GetVacanciesTypesUseCase @Inject constructor(
+    private val vacancyTypeRepository: VacancyTypeRepository
+) {
+    operator fun invoke() : Flow<Resource<List<VacancyType>>> = flow {
         try {
-            val response = repository.update(id, addVacancyRequest)
+            val response = vacancyTypeRepository.getAll()
             val result = response.body()
             if (response.isSuccessful && result != null) {
                 emit(Resource.Success(result))
-            } else {
+            }else {
                 val gson = Gson()
                 val type = object : TypeToken<ErrorResponse>() {}.type
                 val errorResponse: ErrorResponse? = gson.fromJson(response.errorBody()!!.charStream(), type)
@@ -32,7 +28,7 @@ class UpdateVacancyUseCase @Inject constructor(
                     emit(Resource.Error(errorResponse.description))
                 }
             }
-        } catch (e:Exception) {
+        }catch (e: Exception) {
             e.printStackTrace()
             emit(Resource.Error(e.message.toString()))
         }

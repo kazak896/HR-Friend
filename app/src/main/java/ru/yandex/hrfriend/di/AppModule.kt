@@ -35,13 +35,17 @@ import ru.yandex.hrfriend.domain.use_case.vacancy.GetVacanciesUseCase
 import ru.yandex.hrfriend.domain.use_case.vacancy.GetVacancyByIdUseCase
 import ru.yandex.hrfriend.domain.use_case.vacancy.UpdateVacancyUseCase
 import ru.yandex.hrfriend.domain.use_case.vacancy.VacancyUseCases
+import ru.yandex.hrfriend.domain.use_case.vacancy_type.AddVacancyTypeUseCase
+import ru.yandex.hrfriend.domain.use_case.vacancy_type.DeleteVacancyTypeUseCase
+import ru.yandex.hrfriend.domain.use_case.vacancy_type.GetVacanciesTypesUseCase
+import ru.yandex.hrfriend.domain.use_case.vacancy_type.VacancyTypeUseCases
 import ru.yandex.hrfriend.util.Constants
 import ru.yandex.hrfriend.util.DispatcherProvider
 import ru.yandex.hrfriend.util.PreferencesManager
 import javax.inject.Singleton
 
-private const val BASE_REMOTE_BRESLER_URL = "https:// /"
-private const val BASE_LOCALHOST = "http://${Constants.domain}/"
+//private const val BASE_LOCALHOST = "http://${Constants.domain}/"
+private const val BASE_LOCALHOST = "http://84.201.131.3:8080/"
 private const val BASE_PATH = "api/v1/"
 
 @Module
@@ -83,6 +87,18 @@ object AppModule {
             updateVacancyUseCase = UpdateVacancyUseCase(repository),
             deleteVacancyUseCase = DeleteVacancyUseCase(repository),
             getVacancyByIdUseCase = GetVacancyByIdUseCase(repository)
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideVacancyTypeUseCases(
+        repository: VacancyTypeRepository
+    ) : VacancyTypeUseCases {
+        return VacancyTypeUseCases(
+            getVacanciesTypesUseCase = GetVacanciesTypesUseCase(repository),
+            addVacancyTypeUseCase = AddVacancyTypeUseCase(repository),
+            deleteVacancyTypeUseCase = DeleteVacancyTypeUseCase(repository)
         )
     }
 

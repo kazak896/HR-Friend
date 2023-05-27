@@ -9,13 +9,14 @@ import ru.yandex.hrfriend.data.dto.vacancy.VacancyRequest
 import ru.yandex.hrfriend.data.dto.vacancy.VacancyResponse
 import ru.yandex.hrfriend.domain.repository.VacancyRepository
 import ru.yandex.hrfriend.util.Resource
+import java.util.UUID
 import javax.inject.Inject
 
 class DeleteVacancyUseCase @Inject constructor(
     private val repository: VacancyRepository
 ){
     operator fun invoke(
-        id: Int
+        id: UUID
     ) : Flow<Resource<Unit>> = flow {
         try {
             val response = repository.delete(id)

@@ -35,9 +35,10 @@ class AppLoginUseCase @Inject constructor(
                 preferencesManager.putString(Constants.JWT_KEY, result.access_token)
                 preferencesManager.putLong(Constants.TIMESTAMP, System.currentTimeMillis())
                 preferencesManager.putString(Constants.USERNAME, result.firstname )
+                preferencesManager.putString(Constants.LASTNAME, result.lastname )
                 preferencesManager.putString(Constants.ROLE, result.role )
                 preferencesManager.putString(Constants.EMAIL, result.email )
-
+                preferencesManager.putString(Constants.JWT_REFRESH, result.refresh_token)
 
                 emit(Resource.Success(result))
             } else {

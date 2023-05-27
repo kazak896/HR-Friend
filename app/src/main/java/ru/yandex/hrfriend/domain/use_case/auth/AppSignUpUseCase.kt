@@ -1,5 +1,6 @@
 package ru.yandex.hrfriend.domain.use_case.auth
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
@@ -14,6 +15,7 @@ import ru.yandex.hrfriend.util.PreferencesManager
 import ru.yandex.hrfriend.util.Resource
 import java.lang.Exception
 import javax.inject.Inject
+import kotlin.math.log
 
 class AppSignUpUseCase @Inject constructor(
     private val authRepository: AuthRepository,
@@ -35,11 +37,14 @@ class AppSignUpUseCase @Inject constructor(
             val response = authRepository.breslerAppSignUp(signUpRequest)
             val result = response.body()
             if (response.isSuccessful && result != null) {
+                Log.d("TAG", result.toString())
                 preferencesManager.putString(Constants.JWT_KEY, result.access_token)
                 preferencesManager.putLong(Constants.TIMESTAMP, System.currentTimeMillis())
                 preferencesManager.putString(Constants.USERNAME, result.firstname )
+                preferencesManager.putString(Constants.LASTNAME, result.lastname )
                 preferencesManager.putString(Constants.ROLE, result.role )
                 preferencesManager.putString(Constants.EMAIL, result.email )
+                preferencesManager.putString(Constants.JWT_REFRESH, result.refresh_token)
                 emit(Resource.Success(result))
             } else {
                 val gson = Gson()

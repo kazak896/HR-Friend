@@ -9,5 +9,14 @@
         android:id="@+id/profileFragment"
         android:name="ru.yandex.hrfriend.presentation.main.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_addVacancyFragment2"
+            app:destination="@id/addVacancyFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/addVacancyFragment2"
+        android:name="ru.yandex.hrfriend.presentation.main.vacancy.AddVacancyFragment"
+        android:label="fragment_add_vacancy"
+        tools:layout="@layout/fragment_add_vacancy" />
 </navigation>

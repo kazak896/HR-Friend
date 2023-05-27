@@ -7,4 +7,8 @@ data class SignUpResponse(
     val lastname: String,
     val role: String,
     val email: String
-)
+) {
+    override fun toString(): String {
+        return "SignUpResponse(refresh_token='$refresh_token', access_token='$access_token', firstname='$firstname', lastname='$lastname', role='$role', email='$email')"
+    }
+}

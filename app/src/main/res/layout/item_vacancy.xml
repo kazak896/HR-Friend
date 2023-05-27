@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_marginBottom="@dimen/_6sdp"
     android:elevation="@dimen/_4sdp"
     app:cardCornerRadius="@dimen/_10sdp">
@@ -11,8 +12,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_8sdp"
-        android:orientation="vertical">
+        android:background="@drawable/et_back"
+        android:orientation="vertical"
+        android:padding="@dimen/_8sdp">
 
         <LinearLayout
             android:id="@+id/ll_head"
@@ -24,50 +26,58 @@
                 android:id="@+id/tv_post"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:fontFamily="@font/ubuntu_bold"
                 android:padding="@dimen/_4sdp"
-                android:layout_gravity="center"
+                android:textColor="@color/colorWhite"
                 tools:text="Android разработчик" />
+
             <ImageView
                 android:layout_width="@dimen/_26sdp"
                 android:layout_height="@dimen/_26sdp"
-                android:src="@drawable/ic_favorite_border"/>
+                app:tint="@color/newPink"
+                android:src="@drawable/ic_favorite_border" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_4sdp"
             android:layout_gravity="center"
+            android:padding="@dimen/_4sdp"
+            android:textColor="@color/colorWhite"
             tools:text="Чебоксары" />
 
         <TextView
             android:id="@+id/tv_firm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_4sdp"
             android:layout_gravity="center"
+            android:padding="@dimen/_4sdp"
+            android:textColor="@color/colorWhite"
             tools:text="ОАО СБЕР" />
 
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_4sdp"
-            android:fontFamily="@font/ubuntu_medium"
             android:layout_gravity="center"
+            android:fontFamily="@font/ubuntu_medium"
+            android:padding="@dimen/_4sdp"
+            android:textColor="@color/colorWhite"
             tools:text="от 1000000 $" />
 
         <Button
-            android:layout_marginTop="@dimen/_4sdp"
             android:id="@+id/btn_respond"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_8sdp"
-            android:text="Откликнуться"/>
+            android:background="@color/newPink"
+            android:fontFamily="@font/ubuntu_bold"
+            android:text="Откликнуться" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

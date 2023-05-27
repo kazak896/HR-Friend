@@ -4,7 +4,9 @@ class Constants {
     companion object {
         const val KEY_PREFERENCE_NAME = "HRFriendPrefs"
         const val JWT_KEY = "jwt_key"
+        const val JWT_REFRESH = "jwt_key"
         const val USERNAME = "username"
+        const val LASTNAME = "lastname"
         const val ROLE = "role"
         const val EMAIL = "email"
         const val ID = "id"
