@@ -11,15 +11,24 @@ import java.util.Date
 
 class VacancyAdapter : RecyclerView.Adapter<VacancyAdapter.MyViewHolder>() {
 
+    lateinit var listener: OnItemClickInterface
+
     private var items : List<Content?> = emptyList()
 
     inner class MyViewHolder(private val binding : ItemVacancyBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Content?) {
             //val position = absoluteAdapterPosition
-            binding.tvPost.text = item?.position?.position
+            binding.tvPost.text = item?.position?.position// + "(${item?.responsesCount})"
             binding.tvCity.text = item?.location
-            binding.tvFirm.text = item?.replacementDate
+            binding.tvFirm.text = "Опыт от ${item?.startYearsXP} до ${item?.endYearsXP} лет"
             binding.tvPrice.text = item?.salary
+            binding.btnRespond.setOnClickListener {
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION){
+                    if (item != null) {
+                        listener.onResponseClick(item)
+                    }
+                }
+            }
         }
     }
 
@@ -47,5 +56,13 @@ class VacancyAdapter : RecyclerView.Adapter<VacancyAdapter.MyViewHolder>() {
         } catch (e: Exception) {
             return e.toString()
         }
+    }
+
+    interface OnItemClickInterface{
+        fun onResponseClick(content: Content)
+    }
+
+    fun setOnItemClickInterface(listener: OnItemClickInterface){
+        this.listener = listener
     }
 }

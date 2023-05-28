@@ -249,7 +249,7 @@
                 android:background="@color/colorPrimary"
                 android:paddingStart="6dp"
                 android:paddingEnd="6dp"
-                android:text="Лет от"
+                android:text="Опыт от"
                 android:textAllCaps="true"
                 android:textColor="@color/colorWhite"
                 app:layout_constraintBottom_toTopOf="@id/cl_3"
@@ -280,7 +280,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/newGreen" />
 
-                <TextView
+                <EditText
                     android:id="@+id/et_years_end"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_44sdp"
@@ -313,7 +313,7 @@
                 android:background="@color/colorPrimary"
                 android:paddingStart="6dp"
                 android:paddingEnd="6dp"
-                android:text="Лет до"
+                android:text="Опыт до"
                 android:textAllCaps="true"
                 android:textColor="@color/colorWhite"
                 app:layout_constraintBottom_toTopOf="@id/cl_4"
@@ -344,7 +344,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/newGreen" />
 
-                <TextView
+                <EditText
                     android:id="@+id/et_location"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_44sdp"
@@ -353,7 +353,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/ubuntu_regular"
                     android:gravity="center_vertical"
-                    android:hint="Введите точный адрес"
+                    android:hint="Введите точный адрес(либо удалённо)"
                     android:importantForAutofill="no"
                     android:maxLines="1"
                     android:paddingStart="6dp"
@@ -408,7 +408,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/newGreen" />
 
-                <TextView
+                <EditText
                     android:id="@+id/et_description"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_44sdp"

@@ -49,6 +49,7 @@
     <string name="profile">Profile</string>
     <string name="chat">Chat</string>
     <string name="action_settings">Settings</string>
+    <string name="familia">Фамилия</string>
 
 
 </resources>

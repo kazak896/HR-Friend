@@ -25,6 +25,7 @@ import ua.naiksoftware.stomp.dto.StompMessage
 import ua.naiksoftware.stomp.provider.OkHttpConnectionProvider.TAG
 import java.time.LocalDateTime
 import java.util.Collections
+import java.util.UUID
 import javax.inject.Inject
 import kotlin.streams.toList
 
@@ -35,10 +36,8 @@ class StompViewModel @Inject constructor(
 
 
     companion object {
-//        const val SOCKET_URL = "ws://10.0.2.2:7777/api/v1/chat/websocket"
-//        const val SOCKET_URL = "ws://192.168.18.2:7000/api/v1/chat/websocket"
-//        const val SOCKET_URL = "ws://${Constants.domain}/api/v1/chat/websocket"
-        const val SOCKET_URL = "ws://mail.bresler.ru:7777/api/v1/chat/websocket"
+
+        const val SOCKET_URL = "ws://84.201.131.3:8080/api/v1/chat/websocket"
         const val CHAT_TOPIC = "/topic/chat"
         const val CHAT_LINK_SOCKET = "/api/v1/chat/sock"
         const val MESSAGES_LINK_SOCKET = "/api/v1/chat/all"
@@ -163,14 +162,14 @@ class StompViewModel @Inject constructor(
             text,
             System.currentTimeMillis(),
             preferencesManager.getString(Constants.USERNAME),
-            "1"
+            UUID.randomUUID()
         )
         sendCompletable(mStompClient!!.send(CHAT_LINK_SOCKET, gson.toJson(messageDto)))
         //addMessage(messageDto)
     }
 
-    private fun addMessage(message: MessageDto) {
-        _chatState.value = message.toMessage()
+    private fun addMessage(dto: MessageDto) {
+        _chatState.value = dto.toMessage()
     }
     private fun addMessages(messages: List<MessageDto>) {
         _initChatState.value = messages.stream().map {it.toMessage()}.toList()

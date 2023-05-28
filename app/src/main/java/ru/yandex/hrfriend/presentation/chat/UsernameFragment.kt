@@ -26,8 +26,6 @@ class UsernameFragment : Fragment(R.layout.fragment_username) {
 
     private lateinit var binding: FragmentUsernameBinding
 
-    private val viewModel by viewModels<UsernameViewModel>()
-
     @Inject
     lateinit var preferencesManager: PreferencesManager
 
@@ -35,38 +33,13 @@ class UsernameFragment : Fragment(R.layout.fragment_username) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentUsernameBinding.bind(view)
 
-        binding.btnChat.setOnClickListener{ navigateToChat(preferencesManager.getString(Constants.USERNAME)) }
-        //binding.btnChat.setOnClickListener{ viewModel.onJoinClick() }
-        //observeOnJoin()
-        //observeUsernameChange()
-
-    }
-
-    private fun observeUsernameChange() {
-        binding.etName.doOnTextChanged { text, _, _, _ ->
-            viewModel.onUsernameChange(text.toString())
-        }
-    }
-
-    private fun observeOnJoin() {
-        collectLatestLifecycleFlow(viewModel.onJoinChat) { username ->
-            navigateToChat(username)
+        binding.btnChat.setOnClickListener{
+            navigateToChat("${preferencesManager.getString(Constants.USERNAME)} ${preferencesManager.getString(Constants.LASTNAME)}")
         }
     }
 
     private fun navigateToChat(username: String) {
         val direction = UsernameFragmentDirections.navigateToChat(username)
         findNavController().navigate(direction)
-    }
-
-    private fun <T> Fragment.collectLatestLifecycleFlow(
-        flow: Flow<T>,
-        collect: suspend (T) -> Unit
-    ): Job {
-        return lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                flow.cancellable().collectLatest(collect)
-            }
-        }
     }
 }

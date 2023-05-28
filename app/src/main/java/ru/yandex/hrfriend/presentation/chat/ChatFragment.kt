@@ -68,7 +68,8 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
     private fun getMessages() {
         stompViewModel.initChatState.observe(requireActivity()) {
             messagesBank.addAll(it)
-            adapter.setChatMessages(messagesBank, preferencesManager.getString(Constants.USERNAME))
+            val username = "${preferencesManager.getString(Constants.USERNAME)} ${preferencesManager.getString(Constants.LASTNAME)}"
+            adapter.setChatMessages(messagesBank, username)
             binding.chatRV.visibility = View.VISIBLE;
             binding.progressBar.visibility = View.GONE
         }

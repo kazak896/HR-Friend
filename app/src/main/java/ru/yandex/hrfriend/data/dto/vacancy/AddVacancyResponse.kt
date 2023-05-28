@@ -1,7 +1,7 @@
 package ru.yandex.hrfriend.data.dto.vacancy
 
 data class AddVacancyResponse(
-    val desciption: String,
+    val description: String,
     val endYearsXP: Int,
     val id: String,
     val location: String,

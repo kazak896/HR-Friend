@@ -10,6 +10,6 @@ data class Vacancy (
     val location : String,
     val salary : String,
     val startYearsXP: Int,
-    val desciption: String,
+    val description: String,
     val endYearsXP: Int,
 )

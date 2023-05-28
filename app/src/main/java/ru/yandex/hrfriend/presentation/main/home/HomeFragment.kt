@@ -26,14 +26,22 @@ import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.yandex.hrfriend.R
+import ru.yandex.hrfriend.data.dto.vacancy.Content
+import ru.yandex.hrfriend.data.dto.vacancy.Pageable
 import ru.yandex.hrfriend.data.dto.vacancy.VacancyRequest
 import ru.yandex.hrfriend.databinding.FragmentHomeBinding
 import ru.yandex.hrfriend.domain.models.home.Horizontal
 import ru.yandex.hrfriend.domain.models.home.Vacancy
 import ru.yandex.hrfriend.presentation.main.home.adapters.HorizontalAdapter
 import ru.yandex.hrfriend.presentation.main.home.adapters.VacancyAdapter
+import ru.yandex.hrfriend.presentation.main.resume_response.ResumeResponseViewModel
+import ru.yandex.hrfriend.presentation.main.resume_response.events.AddResumeResponseEvent
+import ru.yandex.hrfriend.presentation.main.resume_response.events.ResumeResponseEvent
 import ru.yandex.hrfriend.presentation.main.vacancy.VacancyViewModel
 import ru.yandex.hrfriend.presentation.main.vacancy.events.GetVacanciesEvent
+import ru.yandex.hrfriend.util.Constants
+import ru.yandex.hrfriend.util.PreferencesManager
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -43,7 +51,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     lateinit var horizontalAdapter: HorizontalAdapter
     lateinit var vacancyAdapter: VacancyAdapter
 
+    @Inject
+    lateinit var preferencesManager: PreferencesManager
+
     private val vacancyViewModel by viewModels<VacancyViewModel>()
+    private val resumeResponseViewModel by viewModels<ResumeResponseViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,12 +72,59 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun init() {
         horizontalAdapter = HorizontalAdapter()
         binding.rvTasks.adapter = horizontalAdapter
-        horizontalAdapter.setHorizontals(getHorizontals())
+
         vacancyAdapter = VacancyAdapter()
         binding.rvVacancy.adapter = vacancyAdapter
-        vacancyViewModel.getVacancies(VacancyRequest(1, 5, emptyList()))
-        observeVacancies()
 
+        if (!preferencesManager.getString(Constants.ROLE).equals("USER")) {
+            binding.tvVacancy.text = "Кандидаты : "
+        } else {
+            observeVacancies()
+            observeResumeResponse()
+            vacancyViewModel.getVacancies(VacancyRequest(0, 5, emptyList()))
+            resumeResponseViewModel.getByUser()
+            vacancyAdapter.setOnItemClickInterface(object : VacancyAdapter.OnItemClickInterface{
+                override fun onResponseClick(content: Content) {
+                    resumeResponseViewModel.saveResumeResponse(
+                        content.id,
+                        "candidateResume-${System.currentTimeMillis()}"
+                    )
+                }
+            })
+        }
+    }
+
+    private fun observeResumeResponse() {
+        collectLatestLifecycleFlow(resumeResponseViewModel.saveFlow) {
+            when (it) {
+                is AddResumeResponseEvent.Empty -> {
+                }
+                is AddResumeResponseEvent.Failure -> {
+                    showToast(it.errorText.toString())
+                }
+                is AddResumeResponseEvent.Loading -> {
+                }
+                is AddResumeResponseEvent.Success -> {
+                    showToast("Успешный отклик на вакансию : ${it.result?.vacancy?.position?.position}")
+                    it.result?.let { it1 -> horizontalAdapter.addItem(it1) }
+                }
+            }
+        }
+        collectLatestLifecycleFlow(resumeResponseViewModel.getByUserFlow) {
+            when (it) {
+                is ResumeResponseEvent.Empty -> {
+                }
+                is ResumeResponseEvent.Failure -> {
+                    showToast(it.errorText.toString())
+                }
+                is ResumeResponseEvent.Loading -> {
+                }
+                is ResumeResponseEvent.Success -> {
+                    Log.d("Tag2", it.result.toString())
+                    it.result?.let { it1 -> horizontalAdapter.setHorizontals(it1) }
+                }
+            }
+        }
     }
 
     private fun observeVacancies() {
@@ -142,15 +201,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         )
     }
 
-    /*private fun getVacancies() : List<Vacancy> {
-        return listOf(
-            Vacancy("Android developer", "Cheboksary", "OOO Byket Chyvashii", "10000000$"),
-            Vacancy("Backend", "Moscow", "OOO Firm2", "100000$"),
-            Vacancy("Full stack", "Kazan", "OOO Firm3", "10000$"),
-            Vacancy("Front End", "Samara", "OOO Firm4", "10000$"),
-            Vacancy("Python", "Grozny", "OOO Firm5", "1$"),
-        )
-    }*/
     private fun <T> Fragment.collectLatestLifecycleFlow(
         flow: Flow<T>,
         collect: suspend (T) -> Unit
@@ -163,6 +213,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 }

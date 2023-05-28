@@ -44,6 +44,7 @@ class AppSignUpUseCase @Inject constructor(
                 preferencesManager.putString(Constants.LASTNAME, result.lastname )
                 preferencesManager.putString(Constants.ROLE, result.role )
                 preferencesManager.putString(Constants.EMAIL, result.email )
+                preferencesManager.putString(Constants.PATH_LINK, result.resumePath )
                 preferencesManager.putString(Constants.JWT_REFRESH, result.refresh_token)
                 emit(Resource.Success(result))
             } else {

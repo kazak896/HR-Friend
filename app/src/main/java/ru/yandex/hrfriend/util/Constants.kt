@@ -11,6 +11,7 @@ class Constants {
         const val LASTNAME = "lastname"
         const val ROLE = "role"
         const val EMAIL = "email"
+        const val PATH_LINK = "path_link"
         const val ID = "id"
         const val TIMESTAMP = "timestamp"
 

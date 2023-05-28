@@ -1,31 +1,29 @@
-package ru.yandex.hrfriend.domain.use_case.vacancy
+package ru.yandex.hrfriend.domain.use_case.person
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.yandex.hrfriend.data.dto.ErrorResponse
-import ru.yandex.hrfriend.data.dto.vacancy.Content
-import ru.yandex.hrfriend.data.dto.vacancy.VacancyRequest
-import ru.yandex.hrfriend.data.dto.vacancy.VacancyResponse
-import ru.yandex.hrfriend.domain.models.home.Vacancy
-import ru.yandex.hrfriend.domain.repository.VacancyRepository
+import ru.yandex.hrfriend.data.dto.person.ResumePath
+import ru.yandex.hrfriend.domain.repository.PersonRepository
+import ru.yandex.hrfriend.domain.repository.ResumeResponseRepository
 import ru.yandex.hrfriend.util.Resource
+import java.util.UUID
 import javax.inject.Inject
-import kotlin.streams.toList
 
-class GetVacanciesUseCase @Inject constructor(
-    private val repository: VacancyRepository
-){
+class UpdatePersonLinkUseCase @Inject constructor(
+    private val personRepository: PersonRepository
+) {
     operator fun invoke(
-        vacancyRequest: VacancyRequest
-    ) : Flow<Resource<VacancyResponse>> = flow {
+        link : String
+    ) : Flow<Resource<Unit>> = flow {
         try {
-            val response = repository.getAll(vacancyRequest)
+            val response = personRepository.updatePersonResumeLink(ResumePath(link))
             val result = response.body()
             if (response.isSuccessful && result != null) {
                 emit(Resource.Success(result))
-            } else {
+            }else {
                 val gson = Gson()
                 val type = object : TypeToken<ErrorResponse>() {}.type
                 val errorResponse: ErrorResponse? = gson.fromJson(response.errorBody()!!.charStream(), type)
@@ -33,22 +31,9 @@ class GetVacanciesUseCase @Inject constructor(
                     emit(Resource.Error(errorResponse.description))
                 }
             }
-        } catch (e:Exception) {
+        }catch (e: Exception) {
             e.printStackTrace()
             emit(Resource.Error(e.message.toString()))
         }
     }
-}
-
-fun Content.toVacancy() : Vacancy {
-    return Vacancy(
-        id,
-        position,
-        replacementDate,
-        location,
-        salary,
-        startYearsXP,
-        description,
-        endYearsXP
-    )
 }

@@ -4,13 +4,13 @@ import kotlinx.serialization.Serializable
 import ru.yandex.hrfriend.domain.models.Message
 import java.text.DateFormat
 import java.util.Date
+import java.util.UUID
 
-@Serializable
 data class MessageDto(
     val text: String,
     val timestamp: Long,
     val username: String,
-    val id: String
+    val id: UUID
 ) {
     fun toMessage(): Message {
         val date = Date(timestamp)

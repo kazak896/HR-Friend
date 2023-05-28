@@ -6,7 +6,8 @@ data class LoginResponse(
     val role: String,
     val email: String,
     val refresh_token : String,
-    val access_token: String
+    val access_token: String,
+    val resumePath: String
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

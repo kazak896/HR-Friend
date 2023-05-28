@@ -30,7 +30,7 @@ class VacancyViewModel @Inject constructor(
     val getAllFlow = _getAllFlow.asStateFlow()
 
     fun saveVacancy(
-         desciption: String,
+        description: String,
          endYearsXP: Int,
          location: String,
          position: Position,
@@ -38,7 +38,7 @@ class VacancyViewModel @Inject constructor(
          startYearsXP: Int
     ) {
         vacancyUseCases.addVacancyUseCase(AddVacancyRequest(
-            desciption,
+            description,
             endYearsXP,
             location, position,
             salary,
@@ -67,7 +67,7 @@ class VacancyViewModel @Inject constructor(
                     _getAllFlow.emit(GetVacanciesEvent.Success(it.data))
                 }
             }
-        }
+        }.launchIn(viewModelScope)
     }
 
 

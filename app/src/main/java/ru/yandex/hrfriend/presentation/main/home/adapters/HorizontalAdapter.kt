@@ -3,27 +3,35 @@ package ru.yandex.hrfriend.presentation.main.home.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ru.yandex.hrfriend.data.dto.resume_response.ResumeResponseResponse
 import ru.yandex.hrfriend.databinding.ItemTaskBinding
 import ru.yandex.hrfriend.domain.models.home.Horizontal
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Date
 
 class HorizontalAdapter : RecyclerView.Adapter<HorizontalAdapter.MyViewHolder>() {
 
-    private var items : List<Horizontal?> = emptyList()
+    private var items : List<ResumeResponseResponse?> = emptyList()
 
     inner class MyViewHolder(private val binding : ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Horizontal?) {
+        fun bind(item: ResumeResponseResponse?) {
             //val position = absoluteAdapterPosition
-            binding.tvTask.text = item?.param1
-            binding.tvTextTask.text = item?.param2
-
+            binding.tvTask.text = getDateTime(item?.time)
+            binding.tvTextTask.text = item?.vacancy?.position?.position
+            binding.btnAddNote.text = item?.status
         }
     }
 
-    fun setHorizontals(items: List<Horizontal?>) {
+    fun setHorizontals(items: List<ResumeResponseResponse?>) {
         this.items = items
         notifyDataSetChanged()
+    }
+
+    fun addItem(response: ResumeResponseResponse) {
+        items.toMutableList().add(response)
+        notifyItemInserted(items.size)
     }
 
 
@@ -37,11 +45,13 @@ class HorizontalAdapter : RecyclerView.Adapter<HorizontalAdapter.MyViewHolder>()
 
     override fun getItemCount(): Int = items.size
 
-    private fun getDateTime(s: Long?): String? {
+    private fun getDateTime(s: String?): String? {
         try {
-            val sdf = SimpleDateFormat("yyyy-dd-MM")
-            val netDate = Date((s)?.times(1000) ?: 100000)
-            return sdf.format(netDate)
+            s?.let {
+                val parsedDate = LocalDateTime.parse(s, DateTimeFormatter.ISO_DATE_TIME)
+                return parsedDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+            }
+            return ""
         } catch (e: Exception) {
             return e.toString()
         }

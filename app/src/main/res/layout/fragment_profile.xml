@@ -244,6 +244,85 @@
             app:layout_constraintTop_toTopOf="@id/cl_3" />
 
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/background_input"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/cl_3">
+
+            <ImageView
+                android:id="@+id/iw_resume_link"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_link"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/et_resume_link"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/newGreen" />
+
+            <EditText
+                android:id="@+id/et_resume_link"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_44sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:background="@null"
+                android:ellipsize="end"
+                android:fontFamily="@font/ubuntu_regular"
+                android:gravity="center_vertical"
+                android:hint="Добавьте ссылку на резюме"
+                android:importantForAutofill="no"
+                android:maxLines="1"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorGrayText"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_save_link"
+                app:layout_constraintStart_toEndOf="@id/iw_resume_link"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/btn_save_link"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/ic_save"
+                app:tint="@color/newPink"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_resume_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_45sdp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/ubuntu_regular"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:text="Ссылка на резюме"
+            android:textAllCaps="true"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toTopOf="@id/cl_4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cl_4" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
@@ -255,25 +334,34 @@
         android:layout_marginEnd="@dimen/_16sdp"
         android:background="@color/color_hint" />
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/ll_for_admin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
-        android:fontFamily="@font/ubuntu_bold"
-        android:text="Вакансии : "
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/_16sdp" />
+        android:visibility="gone"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_add_vacancy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_12sdp"
-        android:backgroundTint="@color/newPink"
-        android:fontFamily="@font/ubuntu_bold"
-        android:text="Добавить вакансию"
-        android:textColor="@color/colorWhite" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:fontFamily="@font/ubuntu_bold"
+            android:text="Вакансии : "
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_16sdp" />
+
+        <Button
+            android:id="@+id/btn_add_vacancy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_12sdp"
+            android:backgroundTint="@color/newPink"
+            android:fontFamily="@font/ubuntu_bold"
+            android:text="Добавить вакансию"
+            android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
 
 </LinearLayout>

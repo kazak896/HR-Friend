@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/colorTextBlacky2"
+    android:background="@color/colorPrimary"
     tools:context=".presentation.chat.ChatFragment">
 
     <View
@@ -21,7 +21,7 @@
         android:id="@+id/headerBackground"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/colorTextBlacky2"
+        android:background="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@id/viewSupporter"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -133,7 +133,7 @@
             android:paddingBottom="@dimen/_8sdp"
             android:background="@drawable/item_back_transp"
             android:src="@drawable/ic_send"
-            app:tint="@color/colorWhite" />
+            app:tint="@color/newPink" />
 
     </FrameLayout>
 

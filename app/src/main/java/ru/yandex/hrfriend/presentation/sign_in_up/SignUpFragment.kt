@@ -55,9 +55,12 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
     }
 
     private fun signUp() {
+
+
+
         viewModel.signUp(
             binding.inputName.text.toString(),
-            binding.inputName.text.toString(),
+            binding.inputLastName.text.toString(),
             binding.inputEmail.text.toString(),
             binding.inputPassword.text.toString()
         )

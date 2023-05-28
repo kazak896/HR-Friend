@@ -1,6 +1,7 @@
 package ru.yandex.hrfriend.data.remote.api
 
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -19,7 +20,7 @@ interface ResumeResponseApi {
 
     @Headers("Content-Type:application/json")
     @POST(PATH)
-    suspend fun addResumeResponse(addResumeResponseRequest: AddResumeResponseRequest, @Header("Authorization") token: String) : Response<ResumeResponseResponse>
+    suspend fun addResumeResponse(@Body addResumeResponseRequest: AddResumeResponseRequest, @Header("Authorization") token: String) : Response<ResumeResponseResponse>
 
     @Headers("Content-Type:application/json")
     @DELETE("$PATH/{id}")

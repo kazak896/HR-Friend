@@ -23,11 +23,11 @@ import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.yandex.hrfriend.R
-import ru.yandex.hrfriend.data.dto.vacancy.Position
 import ru.yandex.hrfriend.data.dto.vacancy_type.VacancyType
 import ru.yandex.hrfriend.data.dto.vacancy_type.toPosition
 import ru.yandex.hrfriend.databinding.FragmentAddVacancyBinding
 import ru.yandex.hrfriend.databinding.FragmentAddVacancyTypeBinding
+import ru.yandex.hrfriend.presentation.main.vacancy.events.AddVacancyEvent
 import ru.yandex.hrfriend.presentation.main.vacancy.events.AddVacancyTypeEvent
 import ru.yandex.hrfriend.presentation.main.vacancy.events.GetVacancyTypesEvent
 import ru.yandex.hrfriend.util.PreferencesManager
@@ -42,14 +42,13 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy),
     @Inject
     lateinit var preferencesManager: PreferencesManager
 
-    val vacancyViewModel by viewModels<VacancyViewModel>()
+    private val vacancyViewModel by viewModels<VacancyViewModel>()
     private val vacancyTypeViewModel by viewModels<VacancyTypeViewModel>()
 
     private lateinit var botSheetBinding: FragmentAddVacancyTypeBinding
     private var dialogAddVT: BottomSheetDialog? = null
 
-    private lateinit var vacancyTypesG: List<VacancyType>
-    private lateinit var positions: List<Position>
+    private var vacancyTypesG: List<VacancyType> = emptyList()
     private var stringArray: MutableList<String> = emptyArray<String>().toMutableList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,8 +73,28 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy),
         }
         binding.btnSave.setOnClickListener { addVacancy() }
 
-        observeSaveVacancyType(arrayAdapter)
+        observeVacancyType(arrayAdapter)
+        observeSaveVacancy()
         getVacancyTypes()
+    }
+
+    private fun observeSaveVacancy() {
+        collectLatestLifecycleFlow(vacancyViewModel.saveFlow) {
+            when (it) {
+                is AddVacancyEvent.Empty -> {
+
+                }
+                is AddVacancyEvent.Failure -> {
+                    showToast(it.errorText.toString())
+                }
+                is AddVacancyEvent.Loading -> {
+
+                }
+                is AddVacancyEvent.Success -> {
+                    showToast("Вакансия на позицию : ${it.result?.position?.position}, сохранена успешно !")
+                }
+            }
+        }
     }
 
     private fun btnAddVacancyTypeClick() {
@@ -105,7 +124,7 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy),
         vacancyTypeViewModel.getVacancyTypes()
     }
 
-    private fun observeSaveVacancyType(arrayAdapter: ArrayAdapter<String>) {
+    private fun observeVacancyType(arrayAdapter: ArrayAdapter<String>) {
         collectLatestLifecycleFlow(vacancyTypeViewModel.saveFlow) {
             when (it) {
                 is AddVacancyTypeEvent.Empty -> TODO()
@@ -115,8 +134,9 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy),
 
                 is AddVacancyTypeEvent.Loading -> TODO()
                 is AddVacancyTypeEvent.Success -> {
-                    showToast("Позиция \"${it.result}\", сохранена успешно !")
+                    showToast("Позиция \"${it.result?.position}\", сохранена успешно !")
                     Log.d("TAG", it.result.toString())
+                    getVacancyTypes()
                 }
             }
         }
@@ -135,13 +155,17 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy),
                     Log.d("TAG", it.result.toString())
                     it.result?.let { vacancyTypes ->
                         vacancyTypesG = vacancyTypes
-                        vacancyTypes.map(VacancyType::position).let { positions ->
-                            {
-                                Log.d("TAG", positions.toString())
-                                stringArray.addAll(positions)
-                                arrayAdapter.notifyDataSetChanged()
-                            }
+                        if (vacancyTypes.isNotEmpty()) {
+
+                            stringArray = vacancyTypes.map { vacancyType -> vacancyType.position }
+                                .toMutableList()
+
+                            Log.d("TAG", stringArray.toString())
+                            arrayAdapter.clear()
+                            arrayAdapter.addAll(stringArray)
+                            arrayAdapter.notifyDataSetChanged()
                         }
+
                     }
                 }
             }
@@ -149,7 +173,7 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy),
     }
 
     private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
     private fun btnBackPressed() {
@@ -163,9 +187,10 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy),
         val yearsEnd = binding.etYearsEnd.text.toString()
         val location = binding.etLocation.text.toString()
         val description = binding.etDescription.text.toString()
+        Log.d("TAG", position.toString())
         position?.toPosition()?.let {
             vacancyViewModel.saveVacancy(
-                desciption = description,
+                description = description,
                 position = it,
                 salary = salary,
                 startYearsXP = yearsStart.toInt(),
@@ -174,7 +199,7 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy),
             )
         }
     }
-
+//    создал 2 пользака - Admin@admin.ru/admin и HR-default@hr.ru/hrhrhr дефолтные с нужными ролями
     private fun <T> Fragment.collectLatestLifecycleFlow(
         flow: Flow<T>,
         collect: suspend (T) -> Unit
@@ -186,15 +211,15 @@ class AddVacancyFragment : Fragment(R.layout.fragment_add_vacancy),
         }
     }
 
-    fun findPositionByPositionName(posName: String) : VacancyType? {
+    private fun findPositionByPositionName(posName: String): VacancyType? {
+        Log.d(posName, vacancyTypesG.toString())
+        var vacancyType : VacancyType? = null
         vacancyTypesG.forEach {
-            return if (it.position == posName) {
-                it
-            } else {
-                null
+            if (posName.equals(it.position)) {
+                vacancyType = it
             }
         }
-        return null
+        return vacancyType
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {

@@ -14,6 +14,7 @@
        android:layout_height="wrap_content"
        android:hint="Enter name"
        android:autofillHints="name"
+       android:visibility="gone"
        app:layout_constraintTop_toTopOf="parent"
        app:layout_constraintEnd_toStartOf="@id/btn_chat"
        app:layout_constraintStart_toStartOf="parent"

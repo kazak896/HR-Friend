@@ -28,6 +28,8 @@ class SignUpViewModel @Inject constructor(
         email: String,
         password: String
     ) {
+
+
         authUseCases.appSignUpUseCase(
             SignUpRequest(
                 firstname, lastname, email, password

@@ -1,5 +1,6 @@
 package ru.yandex.hrfriend.domain.use_case.vacancy
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +21,7 @@ class AddVacancyUseCase @Inject constructor(
         addVacancyRequest: AddVacancyRequest
     ) : Flow<Resource<AddVacancyResponse>> = flow {
         try {
+            Log.d("TAG1", addVacancyRequest.toString())
             val response = vacancyRepository.add(addVacancyRequest)
             val result = response.body()
             if (response.isSuccessful && result != null) {
@@ -41,6 +43,6 @@ class AddVacancyUseCase @Inject constructor(
 
 fun AddVacancyResponse.toVacancy() : Vacancy {
     return Vacancy(
-        id, position, replacementDate, location, salary, startYearsXP, desciption, endYearsXP
+        id, position, replacementDate, location, salary, startYearsXP, description, endYearsXP
     )
 }
