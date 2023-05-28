@@ -4,6 +4,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -22,22 +23,22 @@ interface VacancyApi {
 
     @Headers("Content-Type:application/json")
     @POST("$PATH/list")
-    suspend fun getAll(@Body pageable: VacancyRequest): Response<VacancyResponse>
+    suspend fun getAll(@Body pageable: VacancyRequest, @Header("Authorization") token: String): Response<VacancyResponse>
 
     @Headers("Content-Type:application/json")
     @POST(PATH)
-    suspend fun add(@Body addVacancyRequest: AddVacancyRequest): Response<AddVacancyResponse>
+    suspend fun add(@Body addVacancyRequest: AddVacancyRequest, @Header("Authorization") token: String): Response<AddVacancyResponse>
 
     @Headers("Content-Type:application/json")
     @DELETE("$PATH/{id}")
-    suspend fun delete(@Path("id") id: UUID): Response<Unit>
+    suspend fun delete(@Path("id") id: UUID, @Header("Authorization") token: String): Response<Unit>
 
     @Headers("Content-Type:application/json")
     @PATCH("$PATH/{id}")
-    suspend fun update(@Path("id") id: UUID, @Body addVacancyRequest: AddVacancyRequest): Response<AddVacancyResponse>
+    suspend fun update(@Path("id") id: UUID, @Body addVacancyRequest: AddVacancyRequest, @Header("Authorization") token: String): Response<AddVacancyResponse>
 
     @Headers("Content-Type:application/json")
     @POST("$PATH/{id}")
-    suspend fun getById(@Path("id") id: UUID): Response<VacancyResponse>
+    suspend fun getById(@Path("id") id: UUID, @Header("Authorization") token: String): Response<VacancyResponse>
 
 }

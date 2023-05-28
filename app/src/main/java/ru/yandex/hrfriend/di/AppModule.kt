@@ -21,14 +21,23 @@ import ru.yandex.hrfriend.domain.use_case.auth.AuthUseCases
 import ru.yandex.hrfriend.domain.use_case.auth.AppLoginUseCase
 import ru.yandex.hrfriend.domain.use_case.auth.AppSignUpUseCase
 import ru.yandex.hrfriend.data.remote.api.AuthApi
+import ru.yandex.hrfriend.data.remote.api.ResumeResponseApi
 import ru.yandex.hrfriend.data.remote.api.VacancyApi
 import ru.yandex.hrfriend.data.remote.api.VacancyTypeApi
 import ru.yandex.hrfriend.data.remote.repository.AuthRepositoryImpl
+import ru.yandex.hrfriend.data.remote.repository.ResumeResponseRepositoryImpl
 import ru.yandex.hrfriend.data.remote.repository.VacancyRepositoryImpl
 import ru.yandex.hrfriend.data.remote.repository.VacancyTypeRepositoryImpl
 import ru.yandex.hrfriend.domain.repository.AuthRepository
+import ru.yandex.hrfriend.domain.repository.ResumeResponseRepository
 import ru.yandex.hrfriend.domain.repository.VacancyRepository
 import ru.yandex.hrfriend.domain.repository.VacancyTypeRepository
+import ru.yandex.hrfriend.domain.use_case.resume_response.AddResumeResponseUseCase
+import ru.yandex.hrfriend.domain.use_case.resume_response.DeleteResumeResponseUseCase
+import ru.yandex.hrfriend.domain.use_case.resume_response.GetByUserUseCase
+import ru.yandex.hrfriend.domain.use_case.resume_response.GetByVacancyIdUseCase
+import ru.yandex.hrfriend.domain.use_case.resume_response.ResumeResponseUseCases
+import ru.yandex.hrfriend.domain.use_case.resume_response.UpdateStatusResumeResponseUseCase
 import ru.yandex.hrfriend.domain.use_case.vacancy.AddVacancyUseCase
 import ru.yandex.hrfriend.domain.use_case.vacancy.DeleteVacancyUseCase
 import ru.yandex.hrfriend.domain.use_case.vacancy.GetVacanciesUseCase
@@ -76,6 +85,14 @@ object AppModule {
         .build()
         .create(VacancyTypeApi::class.java)
 
+    @Singleton
+    @Provides
+    fun provideResumeResponseApi(): ResumeResponseApi = Retrofit.Builder()
+        .baseUrl(BASE_LOCALHOST + BASE_PATH)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(ResumeResponseApi::class.java)
+
     @Provides
     @Singleton
     fun provideVacancyUseCases(
@@ -116,6 +133,20 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideAuthUseCases(
+        repository: ResumeResponseRepository
+    ) : ResumeResponseUseCases {
+        return ResumeResponseUseCases(
+            addResumeResponseUseCase = AddResumeResponseUseCase(repository),
+            deleteResumeResponseUseCase = DeleteResumeResponseUseCase(repository),
+            updateStatusResumeResponseUseCase = UpdateStatusResumeResponseUseCase(repository),
+            getByUserUseCase = GetByUserUseCase(repository),
+            getByVacancyIdUseCase = GetByVacancyIdUseCase(repository)
+        )
+    }
+
+    @Provides
+    @Singleton
     fun providePrefsManager(
         app: Application
     ) : PreferencesManager {
@@ -131,8 +162,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideVacancyRepository(
-        vacancyApi: VacancyApi
-    ) : VacancyRepository = VacancyRepositoryImpl(vacancyApi)
+        vacancyApi: VacancyApi,
+        preferencesManager: PreferencesManager
+    ) : VacancyRepository = VacancyRepositoryImpl(vacancyApi, preferencesManager)
 
     @Singleton
     @Provides
@@ -140,6 +172,13 @@ object AppModule {
         vacancyTypeApi: VacancyTypeApi,
         preferencesManager: PreferencesManager
     ) : VacancyTypeRepository = VacancyTypeRepositoryImpl(vacancyTypeApi, preferencesManager)
+
+    @Singleton
+    @Provides
+    fun provideResumeResponseRepository(
+        responseApi: ResumeResponseApi,
+        preferencesManager: PreferencesManager
+    ) : ResumeResponseRepository = ResumeResponseRepositoryImpl(responseApi, preferencesManager)
 
     @Singleton
     @Provides

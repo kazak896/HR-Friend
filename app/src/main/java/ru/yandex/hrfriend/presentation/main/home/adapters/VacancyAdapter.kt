@@ -3,6 +3,7 @@ package ru.yandex.hrfriend.presentation.main.home.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ru.yandex.hrfriend.data.dto.vacancy.Content
 import ru.yandex.hrfriend.databinding.ItemVacancyBinding
 import ru.yandex.hrfriend.domain.models.home.Vacancy
 import java.text.SimpleDateFormat
@@ -10,10 +11,10 @@ import java.util.Date
 
 class VacancyAdapter : RecyclerView.Adapter<VacancyAdapter.MyViewHolder>() {
 
-    private var items : List<Vacancy?> = emptyList()
+    private var items : List<Content?> = emptyList()
 
     inner class MyViewHolder(private val binding : ItemVacancyBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Vacancy?) {
+        fun bind(item: Content?) {
             //val position = absoluteAdapterPosition
             binding.tvPost.text = item?.position?.position
             binding.tvCity.text = item?.location
@@ -22,7 +23,7 @@ class VacancyAdapter : RecyclerView.Adapter<VacancyAdapter.MyViewHolder>() {
         }
     }
 
-    fun setVacancies(items: List<Vacancy?>) {
+    fun setVacancies(items: List<Content?>) {
         this.items = items
         notifyDataSetChanged()
     }

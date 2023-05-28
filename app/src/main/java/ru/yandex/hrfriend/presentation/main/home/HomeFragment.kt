@@ -7,27 +7,43 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.createBitmap
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ru.yandex.hrfriend.R
+import ru.yandex.hrfriend.data.dto.vacancy.VacancyRequest
 import ru.yandex.hrfriend.databinding.FragmentHomeBinding
 import ru.yandex.hrfriend.domain.models.home.Horizontal
 import ru.yandex.hrfriend.domain.models.home.Vacancy
 import ru.yandex.hrfriend.presentation.main.home.adapters.HorizontalAdapter
 import ru.yandex.hrfriend.presentation.main.home.adapters.VacancyAdapter
+import ru.yandex.hrfriend.presentation.main.vacancy.VacancyViewModel
+import ru.yandex.hrfriend.presentation.main.vacancy.events.GetVacanciesEvent
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var binding: FragmentHomeBinding
 
     lateinit var horizontalAdapter: HorizontalAdapter
     lateinit var vacancyAdapter: VacancyAdapter
+
+    private val vacancyViewModel by viewModels<VacancyViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,10 +63,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         horizontalAdapter.setHorizontals(getHorizontals())
         vacancyAdapter = VacancyAdapter()
         binding.rvVacancy.adapter = vacancyAdapter
-        //vacancyAdapter.setVacancies(getVacancies())
+        vacancyViewModel.getVacancies(VacancyRequest(1, 5, emptyList()))
+        observeVacancies()
 
     }
 
+    private fun observeVacancies() {
+        collectLatestLifecycleFlow(vacancyViewModel.getAllFlow) {
+            when (it) {
+                is GetVacanciesEvent.Empty -> {
+                }
+                is GetVacanciesEvent.Failure -> {
+                    showToast(it.errorText.toString())
+                }
+                is GetVacanciesEvent.Loading -> {
+                }
+                is GetVacanciesEvent.Success -> {
+                    Log.d("TAG", it.result?.content.toString())
+                    it.result?.let { it1 -> vacancyAdapter.setVacancies(it1.content) }
+                }
+            }
+        }
+
+    }
 
     private val notificationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -63,10 +98,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         showSettingDialog()
                     }
                 }
-            } else {
+            } /*else {
                 Toast.makeText(requireContext(), "notification permission granted", Toast.LENGTH_SHORT)
                     .show()
-            }
+            }*/
         }
 
     private fun showSettingDialog() {
@@ -116,5 +151,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             Vacancy("Python", "Grozny", "OOO Firm5", "1$"),
         )
     }*/
+    private fun <T> Fragment.collectLatestLifecycleFlow(
+        flow: Flow<T>,
+        collect: suspend (T) -> Unit
+    ): Job {
+        return lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                flow.cancellable().collectLatest(collect)
+            }
+        }
+    }
 
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
 }
