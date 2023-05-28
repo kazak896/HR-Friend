@@ -91,6 +91,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 is UpdateEvent.Loading -> TODO()
                 is UpdateEvent.Success -> {
                     showToast("Ссылка сохранена успешно !")
+                    binding.btnSaveLink.visibility = View.INVISIBLE
                 }
             }
         }
